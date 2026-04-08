@@ -1,14 +1,4 @@
-# ============================================================
-# STAT 4970W - Data Ethics for AI Workflows
-# Hallucination Analysis: Simulated Data, Logistic Regression,
-# and Figure Generation
-#
-# Authors: Sanjit Subhash, Colin Arbuckle,
-#          Derek Dembinsky, Adrian Cantrell
-# University of Missouri-Columbia
-# ============================================================
-
-# ── 1. Setup ─────────────────────────────────────────────────────────────────
+# 1. Setup
 set.seed(4970)
 
 library(ggplot2)
@@ -23,7 +13,7 @@ beta_ctx  <- -0.9   # context level effect (NC=0, PC=1, FC=2)
 beta_spec <- -0.7   # specificity effect (General=0, Specific=1)
 
 
-# ── 2. Simulate data ─────────────────────────────────────────────────────────
+# Simulate data
 # 3x2 factorial design x 3 task types = 18 cells
 # Target N = 150 (approx. 8-9 per cell)
 
@@ -55,7 +45,7 @@ cat("Dataset created: N =", nrow(df), "\n")
 head(df)
 
 
-# ── 3. Descriptive hallucination rates ───────────────────────────────────────
+# 3. Descriptive hallucination rates
 
 rates <- df %>%
   group_by(ctx_label) %>%
@@ -78,7 +68,7 @@ cat("\nHallucination rates by context level and specificity:\n")
 print(rates_by_spec)
 
 
-# ── 4. Figure 1: left panel (bar chart) ──────────────────────────────────────
+# 4. Figure 1: left panel (bar chart) 
 
 p_left <- ggplot(rates, aes(x = ctx_label, y = rate, fill = ctx_label)) +
   geom_col(width = 0.55, show.legend = FALSE) +
@@ -109,8 +99,7 @@ p_left <- ggplot(rates, aes(x = ctx_label, y = rate, fill = ctx_label)) +
   )
 
 
-# ── 5. Logistic regression model (Table 1) ───────────────────────────────────
-
+# 5. Logistic regression model (Table 1) 
 model <- glm(hallucinated ~ context_level + specificity + task_type,
              data   = df,
              family = binomial(link = "logit"))
@@ -146,7 +135,7 @@ cat("\nCohen's kappa (simulated placeholder):", round(kappa, 3), "\n")
 cat("Target threshold: >= 0.80\n")
 
 
-# ── 6. Figure 1: right panel (probability curves) ────────────────────────────
+# 6. Figure 1: right panel (probability curves)
 
 pred_grid <- expand.grid(
   context_level = seq(0, 2, by = 0.05),
@@ -195,7 +184,7 @@ p_right <- ggplot(pred_grid,
   )
 
 
-# ── 7. Combine panels and export Figure 1 ────────────────────────────────────
+# 7. Combine panels and export Figure 1
 
 fig1 <- (p_left | p_right) +
   plot_annotation(
