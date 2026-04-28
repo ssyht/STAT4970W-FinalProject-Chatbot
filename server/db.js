@@ -1,103 +1,99 @@
-const initSqlJs = require('sql.js');
+/**
+ * Simple JSON-based data store — no native dependencies.
+ * Works on any Node.js version including v24.
+ * Data persisted to db/data.json
+ */
+const fs   = require('fs');
 const path = require('path');
-const fs = require('fs');
 
-const DB_DIR = path.join(__dirname, '../db');
-const DB_PATH = path.join(DB_DIR, 'users.sqlite');
+const DB_DIR  = path.join(__dirname, '../db');
+const DB_FILE = path.join(DB_DIR, 'data.json');
 
-let db = null;
-let SQL = null;
+let store = {
+  users:        [],
+  sessions:     [],
+  chat_history: []
+};
+let nextId = { users: 1, sessions: 1, chat_history: 1 };
+
+function save() {
+  if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
+  fs.writeFileSync(DB_FILE, JSON.stringify({ store, nextId }, null, 2));
+}
+
+function load() {
+  if (fs.existsSync(DB_FILE)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
+      store  = data.store  || store;
+      nextId = data.nextId || nextId;
+    } catch (e) {
+      console.warn('Could not parse db/data.json, starting fresh.');
+    }
+  }
+}
 
 async function initDB() {
-  if (db) return db;
-
-  SQL = await initSqlJs();
-
-  // Load existing DB or create new
-  if (fs.existsSync(DB_PATH)) {
-    const fileBuffer = fs.readFileSync(DB_PATH);
-    db = new SQL.Database(fileBuffer);
-  } else {
-    if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
-    db = new SQL.Database();
-  }
-
-  // Create tables
-  db.run(`
-    CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      pawprint TEXT NOT NULL UNIQUE,
-      created_at TEXT DEFAULT (datetime('now')),
-      last_login TEXT DEFAULT (datetime('now'))
-    )
-  `);
-
-  db.run(`
-    CREATE TABLE IF NOT EXISTS sessions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      pawprint TEXT NOT NULL,
-      session_token TEXT NOT NULL UNIQUE,
-      created_at TEXT DEFAULT (datetime('now'))
-    )
-  `);
-
-  db.run(`
-    CREATE TABLE IF NOT EXISTS chat_history (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      pawprint TEXT NOT NULL,
-      role TEXT NOT NULL,
-      content TEXT NOT NULL,
-      context_level TEXT,
-      prompt_specificity TEXT,
-      hallucination_risk REAL,
-      created_at TEXT DEFAULT (datetime('now'))
-    )
-  `);
-
-  saveDB();
+  load();
   console.log('✅ Database initialized');
-  return db;
+  return true;
 }
 
-function saveDB() {
-  if (!db) return;
-  const data = db.export();
-  const buffer = Buffer.from(data);
-  fs.writeFileSync(DB_PATH, buffer);
-}
-
-// Wrapper to mimic better-sqlite3 API
 function getDB() {
-  if (!db) throw new Error('DB not initialized. Call await initDB() first.');
   return {
     prepare: (sql) => ({
       run: (...params) => {
-        db.run(sql, params);
-        saveDB();
+        const now = new Date().toISOString();
+        if (/INSERT INTO users/i.test(sql)) {
+          const [name, pawprint] = params;
+          store.users.push({ id: nextId.users++, name, pawprint, created_at: now, last_login: now });
+          save(); return {};
+        }
+        if (/UPDATE users SET last_login/i.test(sql)) {
+          const u = store.users.find(u => u.pawprint === params[0]);
+          if (u) u.last_login = now;
+          save(); return {};
+        }
+        if (/INSERT INTO sessions/i.test(sql)) {
+          const [pawprint, session_token] = params;
+          store.sessions.push({ id: nextId.sessions++, pawprint, session_token, created_at: now });
+          save(); return {};
+        }
+        if (/INSERT INTO chat_history/i.test(sql)) {
+          const [pawprint, role, content, context_level, prompt_specificity, hallucination_risk] = params;
+          store.chat_history.push({ id: nextId.chat_history++, pawprint, role, content, context_level, prompt_specificity, hallucination_risk, created_at: now });
+          save(); return {};
+        }
+        return {};
       },
       get: (...params) => {
-        const stmt = db.prepare(sql);
-        stmt.bind(params);
-        if (stmt.step()) {
-          const row = stmt.getAsObject();
-          stmt.free();
-          return row;
+        if (/FROM users WHERE pawprint/i.test(sql))
+          return store.users.find(u => u.pawprint === params[0]) || undefined;
+        if (/FROM sessions WHERE session_token/i.test(sql))
+          return store.sessions.find(s => s.session_token === params[0]) || undefined;
+        if (/COUNT\(\*\)/i.test(sql)) {
+          const rows = store.chat_history.filter(r => r.pawprint === params[0] && r.role === 'assistant');
+          const risks = rows.map(r => r.hallucination_risk || 0);
+          return {
+            total_messages: rows.length,
+            high_risk:     rows.filter(r => (r.hallucination_risk||0) >= 65).length,
+            moderate_risk: rows.filter(r => (r.hallucination_risk||0) >= 35 && (r.hallucination_risk||0) < 65).length,
+            low_risk:      rows.filter(r => (r.hallucination_risk||0) < 35).length,
+            avg_risk:      risks.length ? +(risks.reduce((a,b)=>a+b,0)/risks.length).toFixed(1) : null
+          };
         }
-        stmt.free();
         return undefined;
       },
       all: (...params) => {
-        const results = [];
-        const stmt = db.prepare(sql);
-        stmt.bind(params);
-        while (stmt.step()) results.push(stmt.getAsObject());
-        stmt.free();
-        return results;
+        if (/FROM chat_history WHERE pawprint/i.test(sql))
+          return store.chat_history
+            .filter(r => r.pawprint === params[0])
+            .sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
+            .slice(0, 50);
+        return [];
       }
-    }),
-    exec: (sql) => { db.run(sql); saveDB(); }
+    })
   };
 }
 
-module.exports = { initDB, getDB, saveDB };
+module.exports = { initDB, getDB };

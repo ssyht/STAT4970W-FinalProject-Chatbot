@@ -1,0 +1,80 @@
+{
+  "store": {
+    "users": [
+      {
+        "id": 1,
+        "name": "Sanjit Subhash",
+        "pawprint": "ssyht",
+        "created_at": "2026-04-28T21:16:04.310Z",
+        "last_login": "2026-04-28T21:21:36.034Z"
+      }
+    ],
+    "sessions": [
+      {
+        "id": 1,
+        "pawprint": "ssyht",
+        "session_token": "b70047ffc3b94ed8cdbb15b9661fd2f416f262ab48947e2e1dff33203625b98f",
+        "created_at": "2026-04-28T21:16:04.319Z"
+      },
+      {
+        "id": 2,
+        "pawprint": "ssyht",
+        "session_token": "59df94a9e5c041e411e8e0f4a6ef5ec91e056207f41ebe1b6826ac7be081dca5",
+        "created_at": "2026-04-28T21:17:43.021Z"
+      },
+      {
+        "id": 3,
+        "pawprint": "ssyht",
+        "session_token": "1c6903ea22e76d7097cc9049118959952910665d11aa1540ac824287fdbceb27",
+        "created_at": "2026-04-28T21:21:36.036Z"
+      }
+    ],
+    "chat_history": [
+      {
+        "id": 1,
+        "pawprint": "ssyht",
+        "role": "user",
+        "content": "A study of 150 adults examined exercise effects on systolic blood pressure using OLS regression. What is the p-value?",
+        "context_level": "0",
+        "prompt_specificity": "general",
+        "hallucination_risk": 80,
+        "created_at": "2026-04-28T21:16:25.680Z"
+      },
+      {
+        "id": 2,
+        "pawprint": "ssyht",
+        "role": "assistant",
+        "content": "I cannot provide a p-value for this study because I don't have access to the actual data or results.\n\n## Why I Cannot Answer This\n\nTo determine a p-value from a regression analysis, I would need:\n\n- The actual dataset or regression output\n- The estimated coefficient(s) and standard error(s)\n- The test statistic (t-value)\n- Degrees of freedom\n\n## What I Can Tell You Generally\n\nFor a simple OLS regression with 150 observations:\n- **Degrees of freedom** for the t-test would be approximately 148 (n - 2 for simple regression)\n- **P-values** are calculated from the t-distribution based on the ratio of the coefficient to its standard error\n\n## Important Note\n\nIf I were to fabricate a specific p-value (e.g., \"p = 0.03\"), that would be a **hallucination** — generating false information that sounds plausible but has no basis in actual data. This is exactly the kind of behavior this tool is designed to help you explore.\n\nIf you have the regression output or data from this study, I'd be happy to help interpret the actual results.",
+        "context_level": "0",
+        "prompt_specificity": "general",
+        "hallucination_risk": 80,
+        "created_at": "2026-04-28T21:16:25.685Z"
+      },
+      {
+        "id": 3,
+        "pawprint": "ssyht",
+        "role": "user",
+        "content": "What is diagonalization?",
+        "context_level": "0",
+        "prompt_specificity": "general",
+        "hallucination_risk": 80,
+        "created_at": "2026-04-28T21:19:09.505Z"
+      },
+      {
+        "id": 4,
+        "pawprint": "ssyht",
+        "role": "assistant",
+        "content": "# Diagonalization\n\n**Diagonalization** is a fundamental concept in linear algebra that involves transforming a square matrix into a diagonal matrix through a similarity transformation.\n\n## Basic Definition\n\nA square matrix **A** is said to be **diagonalizable** if there exists an invertible matrix **P** such that:\n\n$$P^{-1}AP = D$$\n\nwhere **D** is a diagonal matrix (a matrix with non-zero entries only on the main diagonal).\n\n## Key Components\n\n- **Eigenvalues**: The diagonal entries of D are the eigenvalues of A\n- **Eigenvectors**: The columns of P are the corresponding eigenvectors of A\n\n## When is a Matrix Diagonalizable?\n\nA matrix is diagonalizable if and only if:\n1. It has **n linearly independent eigenvectors** (where n is the matrix dimension)\n2. Equivalently, for each eigenvalue, the geometric multiplicity equals the algebraic multiplicity\n\n## Why It's Useful\n\n- **Simplifies matrix computations**: Computing A^k becomes trivial (D^k is just raising diagonal entries to the k-th power)\n- **Solving differential equations**: Makes systems of linear ODEs easier to solve\n- **Understanding linear transformations**: Reveals the fundamental \"stretching\" directions\n\n## Honest Note on Uncertainty\n\nI should mention that I'm working from general knowledge here. If you're looking for specific applications in a particular statistical or scientific context, or details from a specific source, I may not have that specialized information readily available.\n\nIs there a particular aspect of diagonalization you'd like me to elaborate on?",
+        "context_level": "0",
+        "prompt_specificity": "general",
+        "hallucination_risk": 80,
+        "created_at": "2026-04-28T21:19:09.507Z"
+      }
+    ]
+  },
+  "nextId": {
+    "users": 2,
+    "sessions": 4,
+    "chat_history": 5
+  }
+}
