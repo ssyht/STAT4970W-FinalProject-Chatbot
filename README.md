@@ -122,7 +122,6 @@ When real experimental data are collected, the hardcoded risk scores will also b
 ## Authors
 
 Sanjit Subhash, Colin Arbuckle, Derek Dembinsky, Adrian Cantrell  
-University of Missouri-Columbia — STAT 4970W
 
 ---
 
