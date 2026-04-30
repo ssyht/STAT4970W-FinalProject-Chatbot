@@ -6,7 +6,7 @@
         "name": "Sanjit Subhash",
         "pawprint": "ssyht",
         "created_at": "2026-04-28T21:16:04.310Z",
-        "last_login": "2026-04-28T21:21:36.034Z"
+        "last_login": "2026-04-29T15:09:46.778Z"
       }
     ],
     "sessions": [
@@ -27,6 +27,12 @@
         "pawprint": "ssyht",
         "session_token": "1c6903ea22e76d7097cc9049118959952910665d11aa1540ac824287fdbceb27",
         "created_at": "2026-04-28T21:21:36.036Z"
+      },
+      {
+        "id": 4,
+        "pawprint": "ssyht",
+        "session_token": "60b46539733a2b7d3e174d9c4153d366e6f345c5f6e3e15cf1cd9363132bec53",
+        "created_at": "2026-04-29T15:09:46.788Z"
       }
     ],
     "chat_history": [
@@ -69,12 +75,92 @@
         "prompt_specificity": "general",
         "hallucination_risk": 80,
         "created_at": "2026-04-28T21:19:09.507Z"
+      },
+      {
+        "id": 5,
+        "pawprint": "ssyht",
+        "role": "user",
+        "content": "A study of 150 adults examined exercise effects on systolic blood pressure using OLS regression. What is the p-value?",
+        "context_level": "0",
+        "prompt_specificity": "general",
+        "hallucination_risk": 80,
+        "created_at": "2026-04-29T15:10:06.023Z"
+      },
+      {
+        "id": 6,
+        "pawprint": "ssyht",
+        "role": "assistant",
+        "content": "I cannot provide a specific p-value for this study because I have no access to the actual data, results, or any background information about this research.\n\n## What I Would Need to Answer This Question\n\nTo report a p-value from this study, I would need:\n- The actual regression output or results table\n- The coefficient estimates and standard errors\n- The specific hypothesis being tested (e.g., is exercise frequency significant? Exercise duration? A specific contrast?)\n\n## What I Can Tell You Generally\n\nFor an OLS regression examining exercise effects on blood pressure with n=150:\n\n- **Multiple p-values typically exist** in such a study—one for each predictor variable, plus potentially an overall F-test for model significance\n- **Without the data**, any specific number I might give would be fabricated\n- The study's actual p-value depends entirely on the observed relationship in that particular dataset\n\n## Why I'm Being Explicit About This\n\nThis tool is designed to explore LLM hallucination. A common failure mode is when AI systems generate plausible-sounding but entirely fabricated statistics. I'm operating without any context about this specific study, so I genuinely cannot answer your question with a real value.\n\n**If you have the study results or data available**, please share them and I can help interpret the findings.",
+        "context_level": "0",
+        "prompt_specificity": "general",
+        "hallucination_risk": 80,
+        "created_at": "2026-04-29T15:10:06.027Z"
+      },
+      {
+        "id": 7,
+        "pawprint": "ssyht",
+        "role": "user",
+        "content": "OLS regression: β̂ = −4.2, SE = 1.1, t(148) = −3.82, p = 0.0002. Report the p-value and interpret significance.",
+        "context_level": "2",
+        "prompt_specificity": "general",
+        "hallucination_risk": 40,
+        "created_at": "2026-04-29T19:34:50.361Z"
+      },
+      {
+        "id": 8,
+        "pawprint": "ssyht",
+        "role": "assistant",
+        "content": "## P-Value and Significance Interpretation\n\n**The p-value is 0.0002.**\n\n### Statistical Interpretation\n\nThis result is **statistically significant** at conventional thresholds:\n- p < 0.05 ✓\n- p < 0.01 ✓\n- p < 0.001 ✓\n\nThe t-statistic of −3.82 with 148 degrees of freedom corresponds to this very small p-value, indicating strong evidence against the null hypothesis that exercise has no effect on systolic blood pressure.\n\n### Substantive Interpretation\n\nBased on the regression output:\n\n- **Direction**: The negative coefficient (β̂ = −4.2) indicates that increased exercise is associated with *lower* systolic blood pressure\n- **Magnitude**: Each one-unit increase in exercise (however measured in this study) is associated with a 4.2 mmHg decrease in systolic blood pressure, on average\n- **Precision**: The standard error of 1.1 is relatively small compared to the estimate, yielding a tight confidence interval\n\n### 95% Confidence Interval\n\nApproximately: −4.2 ± (1.98 × 1.1) = **[−6.4, −2.0] mmHg**\n\nThis interval excludes zero, consistent with the significant p-value.\n\n### Caveat\n\nStatistical significance does not establish causation. The observed association could reflect confounding variables not controlled in the model.",
+        "context_level": "2",
+        "prompt_specificity": "general",
+        "hallucination_risk": 40,
+        "created_at": "2026-04-29T19:34:50.366Z"
+      },
+      {
+        "id": 9,
+        "pawprint": "ssyht",
+        "role": "user",
+        "content": "What is the p-value for the effect of exercise on blood pressure?",
+        "context_level": "2",
+        "prompt_specificity": "general",
+        "hallucination_risk": 40,
+        "created_at": "2026-04-29T19:38:44.848Z"
+      },
+      {
+        "id": 10,
+        "pawprint": "ssyht",
+        "role": "assistant",
+        "content": "**The p-value is 0.0002.**\n\nThis indicates a statistically significant negative association between exercise and systolic blood pressure (β̂ = −4.2, SE = 1.1, t(148) = −3.82), with each unit increase in exercise associated with a 4.2 mmHg reduction in blood pressure.",
+        "context_level": "2",
+        "prompt_specificity": "general",
+        "hallucination_risk": 40,
+        "created_at": "2026-04-29T19:38:44.853Z"
+      },
+      {
+        "id": 11,
+        "pawprint": "ssyht",
+        "role": "user",
+        "content": "Given β̂ = 0.43 and SE = 0.12, compute the 95% confidence interval.",
+        "context_level": "0",
+        "prompt_specificity": "general",
+        "hallucination_risk": 80,
+        "created_at": "2026-04-29T20:08:32.817Z"
+      },
+      {
+        "id": 12,
+        "pawprint": "ssyht",
+        "role": "assistant",
+        "content": "## 95% Confidence Interval Calculation\n\n**Formula:** CI = β̂ ± (t-critical × SE)\n\n### Computation\n\nUsing the t-distribution with 148 degrees of freedom (from the study design):\n- t-critical ≈ 1.98 (for 95% confidence)\n\n**CI = 0.43 ± (1.98 × 0.12)**\n\n**CI = 0.43 ± 0.24**\n\n### Result\n\n**95% CI: [0.19, 0.67]**\n\n---\n\n### Interpretation\n\n- We are 95% confident the true population parameter lies between 0.19 and 0.67\n- Since this interval **excludes zero**, the effect is statistically significant at α = 0.05\n- The positive coefficient suggests a positive association between the predictor and outcome\n\n### Important Note\n\nYou've provided new coefficient values (β̂ = 0.43, SE = 0.12) that differ from the earlier exercise-blood pressure results (β̂ = −4.2, SE = 1.1). This could represent:\n- A different predictor variable in the same study\n- A different model specification\n- A separate analysis entirely\n\nIf you'd like me to contextualize this within the original study, please clarify what this coefficient represents.",
+        "context_level": "0",
+        "prompt_specificity": "general",
+        "hallucination_risk": 80,
+        "created_at": "2026-04-29T20:08:32.821Z"
       }
     ]
   },
   "nextId": {
     "users": 2,
-    "sessions": 4,
-    "chat_history": 5
+    "sessions": 5,
+    "chat_history": 13
   }
 }
